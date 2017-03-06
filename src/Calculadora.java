@@ -7,19 +7,24 @@ import java.io.IOException;
  */
 public class Calculadora {
 
+
     private float num1;
     private float num2;
     private char operacio;
 
     public Calculadora(DataInputStream in) throws IOException {
 
+        //legim les dades del client
         byte[] missatge = new byte[in.available()];
         in.read(missatge);
+
+
         String MissatgeOperacio = new String(missatge);
         String temp = "";
         String temp2 = "";
         Boolean pass = false;
 
+        //separem els nombres de l'operador
         for (int i = 0; i < MissatgeOperacio.length(); i++) {
 
             if(!pass && (MissatgeOperacio.charAt(i) == '+' || MissatgeOperacio.charAt(i) == '-' || MissatgeOperacio.charAt(i) == '/' || MissatgeOperacio.charAt(i) == 'x')){
@@ -42,6 +47,8 @@ public class Calculadora {
         num1 = Float.parseFloat(temp);
         num2 = Float.parseFloat(temp2);
     }
+
+    //Realitzem la operacio
     public float executar() {
         float resultat = 0;
         if(operacio == '+') {
@@ -58,6 +65,8 @@ public class Calculadora {
         }
         return resultat;
     }
+
+    //retornem el resultat
     public void enviar(DataOutputStream out, Float resultat) throws IOException {
         out.write(new String(resultat+"").getBytes());
     }
